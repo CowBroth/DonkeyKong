@@ -1,0 +1,105 @@
+{
+    "version": 1,
+    "name": "ControlActions",
+    "maps": [
+        {
+            "name": "Movement",
+            "id": "dcbb9c80-59de-4505-a011-bb5a5c0e13cb",
+            "actions": [
+                {
+                    "name": "WalkAxis",
+                    "type": "Button",
+                    "id": "b921b866-4dbf-4197-b1be-f29bfa2b3691",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "bb8e458d-e7fb-466f-9b2f-7e6fa79c991f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "1D Axis",
+                    "id": "55d99b1d-add7-48f0-87d1-26102bbae1ab",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "WalkAxis",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "0210dd33-bf75-452e-883c-181523be443c",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "WalkAxis",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "3347dbc6-5b7d-43f1-aa07-46999e591aae",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "WalkAxis",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "4bc9d693-550b-4bf6-bafd-341314adcba4",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Tools",
+            "id": "efbe40d4-f860-46a9-9475-6470a8ee7e52",
+            "actions": [
+                {
+                    "name": "Reset Pos",
+                    "type": "Button",
+                    "id": "f751067b-d3e0-405d-98ca-21d43758ef1d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "07ea827d-d99c-469b-ae8e-92f20227c5d4",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reset Pos",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
