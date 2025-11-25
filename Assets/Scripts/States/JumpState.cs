@@ -9,7 +9,6 @@ public class JumpState : State
 
     public override void Enter()
     {
-        //set y velocity
 
     }
 

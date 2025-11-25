@@ -4,6 +4,7 @@ public class BarrelScript : MonoBehaviour
 {
     Rigidbody2D rb;
     public float maxSpeed;
+    public float minSpeed;
     ControlActions controls;
     public Vector2 origin;
     public float vel;
@@ -14,12 +15,13 @@ public class BarrelScript : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        origin = transform.position;
     }
     void Update()
     {
-        if (rb.linearVelocity.x >= maxSpeed)
+        if (rb.linearVelocity.magnitude >= maxSpeed)
         {
-            rb.linearVelocityX = maxSpeed;
+            rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, maxSpeed);
         }
         if (controls.Tools.ResetPos.triggered)
         {
@@ -27,7 +29,14 @@ public class BarrelScript : MonoBehaviour
             transform.position = origin;
             transform.rotation = new Quaternion(0, 0, 0, 0);
         }
-        vel = rb.linearVelocity.x;
+        vel = rb.linearVelocity.magnitude;
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Terrain"))
+        {
+            rb.AddForce(-collision.transform.right * (minSpeed * 5), ForceMode2D.Impulse);
+        }
     }
     void OnEnable()
     {

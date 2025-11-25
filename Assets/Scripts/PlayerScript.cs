@@ -40,6 +40,7 @@ public class PlayerScript : MonoBehaviour
         //cc = GetComponent<CharacterController>();
         terrain = LayerMask.NameToLayer("Terrain");
         rb = GetComponent<Rigidbody2D>();
+        origin = transform.position;
     }
     private void Update()
     {
