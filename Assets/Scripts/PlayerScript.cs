@@ -10,19 +10,20 @@ public class PlayerScript : MonoBehaviour
     public Vector2 origin;
     public bool grounded;
     ControlActions controls;
+    public bool isMoving;
 
     public IdleState idleState;
     public JumpState jumpState;
     public StateMachine sm;
     //public CharacterController cc;
     Rigidbody2D rb;
+    SpriteRenderer sprite;
 
     public Vector3 rayPos = new Vector2(-0.25f, 0);
     public float rayLength;
     LayerMask terrain;
     LayerMask mask;
-
-    //NOTE: raycast still doesn't hit ground, check ray pos or layer
+    public Animator anim;
 
     private void Awake()
     {
@@ -33,6 +34,8 @@ public class PlayerScript : MonoBehaviour
     }
     private void Start()
     {
+        sprite = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
         sm = gameObject.AddComponent<StateMachine>();
         idleState = new IdleState(this, sm);
         jumpState = new JumpState(this, sm);
@@ -50,6 +53,22 @@ public class PlayerScript : MonoBehaviour
         {
             transform.position = origin;
         }
+        if (inputAxis >= 0.5f)
+        {
+            sprite.flipX = false;
+            isMoving = true;
+        }
+        else if (inputAxis <= -0.5f)
+        {
+            sprite.flipX = true;
+            isMoving = true;
+        }
+        else
+        {
+            isMoving = false;
+        }
+        anim.SetBool("Walk", isMoving);
+        anim.SetBool("MidAir", grounded);
     }
     private void FixedUpdate()
     {
