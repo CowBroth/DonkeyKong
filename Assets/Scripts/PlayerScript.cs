@@ -5,7 +5,7 @@ public class PlayerScript : MonoBehaviour
     public int lives;
     public float speed;
     public float jumpHeight;
-    float inputAxis;
+    public float inputAxis;
     [HideInInspector] public float jumpInput;
     public Vector2 origin;
     public bool grounded;
@@ -17,7 +17,7 @@ public class PlayerScript : MonoBehaviour
     public StateMachine sm;
     //public CharacterController cc;
     Rigidbody2D rb;
-    SpriteRenderer sprite;
+    public SpriteRenderer sprite;
 
     public Vector3 rayPos = new Vector2(-0.25f, 0);
     public float rayLength;
@@ -53,20 +53,7 @@ public class PlayerScript : MonoBehaviour
         {
             transform.position = origin;
         }
-        if (inputAxis >= 0.5f)
-        {
-            sprite.flipX = false;
-            isMoving = true;
-        }
-        else if (inputAxis <= -0.5f)
-        {
-            sprite.flipX = true;
-            isMoving = true;
-        }
-        else
-        {
-            isMoving = false;
-        }
+        
         anim.SetBool("Walk", isMoving);
         anim.SetBool("MidAir", grounded);
     }
@@ -95,6 +82,14 @@ public class PlayerScript : MonoBehaviour
     public void PlayerJump()
     {
         rb.linearVelocity = new Vector2(inputAxis * 2, jumpHeight);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ladder"))
+        {
+            transform.position = collision.gameObject.GetComponent<LadderScript>().topLadder;
+        }
     }
     void OnEnable()
     {

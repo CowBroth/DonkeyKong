@@ -14,5 +14,19 @@ public class IdleState : State
             Debug.Log("jump");
             player.PlayerJump();
         }
+        if (player.inputAxis >= 0.5f)
+        {
+            player.sprite.flipX = false;
+            player.isMoving = true;
+        }
+        else if (player.inputAxis <= -0.5f)
+        {
+            player.sprite.flipX = true;
+            player.isMoving = true;
+        }
+        else
+        {
+            player.isMoving = false;
+        }
     }
 }
