@@ -23,6 +23,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "TouchAxis",
+                    "type": "Value",
+                    "id": "8fd9866d-1643-4b7a-9349-208d2141ddba",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "TouchBool",
+                    "type": "Button",
+                    "id": "e460b107-1884-4f84-ae9c-2eb8a9a00997",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -67,6 +85,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9e31697a-4985-4915-bbbd-e21a40a025c7",
+                    "path": "<Touchscreen>/primaryTouch/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TouchAxis",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ea250f91-0dc2-4e63-8daf-e975eb73c06f",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "Hold(duration=0.1,pressPoint=0.1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TouchBool",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

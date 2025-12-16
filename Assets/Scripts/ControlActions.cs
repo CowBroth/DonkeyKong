@@ -109,6 +109,24 @@ public partial class @ControlActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TouchAxis"",
+                    ""type"": ""Value"",
+                    ""id"": ""8fd9866d-1643-4b7a-9349-208d2141ddba"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""TouchBool"",
+                    ""type"": ""Button"",
+                    ""id"": ""e460b107-1884-4f84-ae9c-2eb8a9a00997"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -155,6 +173,28 @@ public partial class @ControlActions: IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9e31697a-4985-4915-bbbd-e21a40a025c7"",
+                    ""path"": ""<Touchscreen>/primaryTouch/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TouchAxis"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ea250f91-0dc2-4e63-8daf-e975eb73c06f"",
+                    ""path"": ""<Touchscreen>/Press"",
+                    ""interactions"": ""Hold(duration=0.1,pressPoint=0.1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TouchBool"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -193,6 +233,8 @@ public partial class @ControlActions: IInputActionCollection2, IDisposable
         m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
         m_Movement_WalkAxis = m_Movement.FindAction("WalkAxis", throwIfNotFound: true);
         m_Movement_Jump = m_Movement.FindAction("Jump", throwIfNotFound: true);
+        m_Movement_TouchAxis = m_Movement.FindAction("TouchAxis", throwIfNotFound: true);
+        m_Movement_TouchBool = m_Movement.FindAction("TouchBool", throwIfNotFound: true);
         // Tools
         m_Tools = asset.FindActionMap("Tools", throwIfNotFound: true);
         m_Tools_ResetPos = m_Tools.FindAction("Reset Pos", throwIfNotFound: true);
@@ -279,6 +321,8 @@ public partial class @ControlActions: IInputActionCollection2, IDisposable
     private List<IMovementActions> m_MovementActionsCallbackInterfaces = new List<IMovementActions>();
     private readonly InputAction m_Movement_WalkAxis;
     private readonly InputAction m_Movement_Jump;
+    private readonly InputAction m_Movement_TouchAxis;
+    private readonly InputAction m_Movement_TouchBool;
     /// <summary>
     /// Provides access to input actions defined in input action map "Movement".
     /// </summary>
@@ -298,6 +342,14 @@ public partial class @ControlActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Movement/Jump".
         /// </summary>
         public InputAction @Jump => m_Wrapper.m_Movement_Jump;
+        /// <summary>
+        /// Provides access to the underlying input action "Movement/TouchAxis".
+        /// </summary>
+        public InputAction @TouchAxis => m_Wrapper.m_Movement_TouchAxis;
+        /// <summary>
+        /// Provides access to the underlying input action "Movement/TouchBool".
+        /// </summary>
+        public InputAction @TouchBool => m_Wrapper.m_Movement_TouchBool;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -330,6 +382,12 @@ public partial class @ControlActions: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @TouchAxis.started += instance.OnTouchAxis;
+            @TouchAxis.performed += instance.OnTouchAxis;
+            @TouchAxis.canceled += instance.OnTouchAxis;
+            @TouchBool.started += instance.OnTouchBool;
+            @TouchBool.performed += instance.OnTouchBool;
+            @TouchBool.canceled += instance.OnTouchBool;
         }
 
         /// <summary>
@@ -347,6 +405,12 @@ public partial class @ControlActions: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @TouchAxis.started -= instance.OnTouchAxis;
+            @TouchAxis.performed -= instance.OnTouchAxis;
+            @TouchAxis.canceled -= instance.OnTouchAxis;
+            @TouchBool.started -= instance.OnTouchBool;
+            @TouchBool.performed -= instance.OnTouchBool;
+            @TouchBool.canceled -= instance.OnTouchBool;
         }
 
         /// <summary>
@@ -497,6 +561,20 @@ public partial class @ControlActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnJump(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "TouchAxis" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTouchAxis(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "TouchBool" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTouchBool(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Tools" which allows adding and removing callbacks.

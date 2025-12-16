@@ -1,3 +1,4 @@
+using System.Threading;
 using UnityEngine;
 
 public class BarrelScript : MonoBehaviour
@@ -25,6 +26,10 @@ public class BarrelScript : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Terrain"))
         {
             rb.AddForce(-collision.transform.right * (minSpeed * 5), ForceMode2D.Impulse);
+        }
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Destroy"))
+        {
+            Destroy(gameObject);
         }
     }
 }

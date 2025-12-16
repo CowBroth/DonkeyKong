@@ -1,8 +1,9 @@
+using System;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-    public int lives;
+    public int lives = 3;
     public float speed;
     public float jumpHeight;
     public float climbSpeed;
@@ -10,9 +11,10 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public float jumpInput;
     public Vector2 origin;
     public bool grounded;
-    ControlActions controls;
+    public ControlActions controls;
     public bool isMoving;
     public bool isClimbing;
+    
 
     public IdleState idleState;
     public JumpState jumpState;
@@ -22,13 +24,14 @@ public class PlayerScript : MonoBehaviour
     Rigidbody2D rb;
     public SpriteRenderer sprite;
     CapsuleCollider2D col;
+    public ManagerScript manager;
 
     public Vector3 rayPos = new Vector2(-0.25f, 0);
     public float rayLength;
     LayerMask terrain;
     LayerMask mask;
     public Animator anim;
-
+    public Vector2 touchPosition;
     private void Awake()
     {
         controls = new ControlActions();
@@ -51,18 +54,38 @@ public class PlayerScript : MonoBehaviour
         col = GetComponent<CapsuleCollider2D>();
         origin = transform.position;
     }
-    private void Update()
+    public void Update()
     {
         inputAxis = controls.Movement.WalkAxis.ReadValue<float>();
         jumpInput = controls.Movement.Jump.ReadValue<float>();
+        anim.SetBool("Walk", isMoving);
+        anim.SetBool("MidAir", grounded);
+        touchPosition = controls.Movement.TouchAxis.ReadValue<Vector2>();
+
+         if (controls.Movement.TouchBool.IsPressed())
+         {
+            if (touchPosition.x < Screen.width / 2f)
+            {
+                inputAxis = -1f;
+            }
+            else
+            {
+                inputAxis = 1f;
+            }
+         }
+
         if (controls.Tools.ResetPos.triggered)
         {
             transform.position = origin;
         }
+        }
+        /*if (!controls.Movement.TouchBool.IsPressed())
+        {
+            inputAxis = 0;
+            return;
+        }*/
         
-        anim.SetBool("Walk", isMoving);
-        anim.SetBool("MidAir", grounded);
-    }
+    
     private void FixedUpdate()
     {
         RaycastHit2D ray1 = Physics2D.Raycast(new Vector3(transform.position.x - rayPos.x, transform.position.y + rayPos.y), -Vector2.up, rayLength, mask);
@@ -114,6 +137,29 @@ public class PlayerScript : MonoBehaviour
             isClimbing = false;
             col.excludeLayers = 0;
             anim.SetBool("Climb", false);
+        }
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Barrel"))
+        {
+            transform.position = origin;
+            if (lives == 3)
+            {
+                lives--;
+                manager.DestroyLife1();
+            }
+            if (lives == 2)
+            {
+                lives--;
+                manager.DestroyLife2();
+            }
+            if (lives == 1)
+            {
+                lives--;
+                manager.DestroyLife3();
+            }
+            if (lives == 0)
+            {
+                manager.DestroyLife4();
+            }
         }
     }
     void OnEnable()
