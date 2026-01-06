@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -32,6 +33,9 @@ public class PlayerScript : MonoBehaviour
     LayerMask mask;
     public Animator anim;
     public Vector2 touchPosition;
+    Vector2 startPosition;
+    Vector2 direction;
+    public Text coordsUI;
     private void Awake()
     {
         controls = new ControlActions();
@@ -53,6 +57,7 @@ public class PlayerScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<CapsuleCollider2D>();
         origin = transform.position;
+        Input.simulateMouseWithTouches = true;
     }
     public void Update()
     {
@@ -60,9 +65,9 @@ public class PlayerScript : MonoBehaviour
         jumpInput = controls.Movement.Jump.ReadValue<float>();
         anim.SetBool("Walk", isMoving);
         anim.SetBool("MidAir", grounded);
-        touchPosition = controls.Movement.TouchAxis.ReadValue<Vector2>();
+        //touchPosition = controls.Movement.TouchAxis.ReadValue<Vector2>();
 
-         if (controls.Movement.TouchBool.IsPressed())
+         /*if (controls.Movement.TouchBool.IsPressed())
          {
             if (touchPosition.x < Screen.width / 2f)
             {
@@ -72,7 +77,31 @@ public class PlayerScript : MonoBehaviour
             {
                 inputAxis = 1f;
             }
-         }
+         }*/
+
+       
+        if (Input.touchCount > 0)
+        {
+            print("Touch");
+
+            Touch touch = Input.GetTouch(0);
+            switch (touch.phase)
+            {
+                case TouchPhase.Began: //Start of touch
+                    startPosition = touch.position;
+                    break;
+
+                case TouchPhase.Moved: //Movement of current touch
+                    direction = touch.position - startPosition;
+                    coordsUI.text = "Pos: " + touch.position.normalized;
+                    break;
+
+                case TouchPhase.Ended: //End of touch
+                    print((startPosition, touch.position));
+                    break;
+            }
+        }
+    
 
         if (controls.Tools.ResetPos.triggered)
         {
